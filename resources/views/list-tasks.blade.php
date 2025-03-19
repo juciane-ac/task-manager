@@ -81,29 +81,30 @@
                             <td>{{ $task->responsible->name ?? 'Sem responsável' }}</td>
                             <td>{{ $task->situation }}</td>
                             <td>
-
+                                <div class="d-flex justify-content-end">
                                 @auth
                                     @if(auth()->user()->hasAnyRole(['admin', 'manager']) || auth()->id() === $task->responsible) 
-                                        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-primary">Editar</a>
+                                        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-primary m-2">Editar</a>
                                     @endif
 
                                     @if(auth()->user()->hasAnyRole(['admin', 'manager']))
                                     <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"  onclick="return confirm('Tem certeza que deseja excluir esta tarefa?')">Excluir</button>
+                                        <button type="submit" class="btn btn-sm btn-danger m-2"  onclick="return confirm('Tem certeza que deseja excluir esta tarefa?')">Excluir</button>
                                     </form>
                                     @endif
 
                                     @if(auth()->id() === $task->responsible)
                                         <form action="{{ route('task.ChangeSituation', $task->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Tem certeza que deseja concluir esta tarefa?')">Concluir</button>
+                                            <button type="submit" class="btn btn-sm btn-success m-2" onclick="return confirm('Tem certeza que deseja concluir esta tarefa?')">Concluir</button>
                                         </form>
                                     @endif
 
                                  
                                 @endauth
+                                </div>
                             </td>
                         </tr>
                         @endforeach

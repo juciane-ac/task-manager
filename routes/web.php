@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('list-tasks');
-})->name('home');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tasks/filter', [HomeController::class, 'filterTasks'])->name('tasks.filter');
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
@@ -19,6 +20,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::middleware(['role:admin|manager|user'])->group(function () {
         Route::resource('tasks', TaskController::class);
+        Route::post('/task/{task}/change-situation', [TaskController::class, 'changeSituation'])->name('task.ChangeSituation');
     });
 
 });

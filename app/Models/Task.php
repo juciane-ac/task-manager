@@ -18,15 +18,15 @@ class Task extends Model
     public function getPriorityLabelAttribute(): string
     {
         return match($this->priority) {
-            TaskPriority::low => 'Baixa',
-            TaskPriority::medium => 'Média',
-            TaskPriority::high => 'Alta',
+            TaskPriority::low->value => 'Baixa',
+            TaskPriority::medium->value => 'Média',
+            TaskPriority::high->value => 'Alta',
         };
     }
 
     public function responsible(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'responsible');
+        return $this->belongsTo(User::class, 'responsible', 'id');
     }
 
 

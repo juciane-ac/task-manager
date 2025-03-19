@@ -37,10 +37,11 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="priority">Prioridade</label>
-                        <select name="priority" id="priority" class="form-control" required>
-                            <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Baixa</option>
-                            <option value="medium" {{ old('priority') == 'medium' ? 'selected' : '' }}>Média</option>
-                            <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>Alta</option>
+                        <select name="priority" class="form-control" required id="priority">
+                            <option value="">Selecione...</option>
+                            <option value="{{ \App\Enums\TaskPriority::low->value }}" {{ old('priority') == \App\Enums\TaskPriority::low->value ? 'selected' : '' }}>Baixa</option>
+                            <option value="{{ \App\Enums\TaskPriority::medium->value }}" {{ old('priority') == \App\Enums\TaskPriority::medium->value ? 'selected' : '' }}>Média</option>
+                            <option value="{{ \App\Enums\TaskPriority::high->value }}" {{ old('priority') == \App\Enums\TaskPriority::high->value ? 'selected' : '' }}>Alta</option>
                         </select>
                     </div>
                 </div>

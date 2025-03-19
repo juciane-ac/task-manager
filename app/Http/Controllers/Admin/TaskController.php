@@ -33,7 +33,6 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -90,5 +89,22 @@ class TaskController extends Controller
     {
         $task->delete();
         return redirect()->route('tasks.index')->with('success', 'Tarefa deletada com sucesso!');
+    }
+
+    public function changeSituation(Task $task)
+    {
+        
+        if (auth()->id() !== $task->responsible) {
+            return redirect()->back()->with('error', 'Você não tem permissão para concluir esta tarefa.');
+        }
+
+        $task->situation = 'concluida'; 
+        $task->save(); 
+    
+        if ($task->wasChanged()) {
+            return redirect()->back()->with('success', 'Tarefa concluída com sucesso.');
+        } else {
+            return redirect()->back()->with('error', 'Não foi possível concluir a tarefa.');
+        }
     }
 }

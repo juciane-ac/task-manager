@@ -25,7 +25,7 @@
                         <td>{{ $project->slug }}</td>
                         
                         <td>
-                            {{--{{ $project->manager ? $project->manager->name : 'Não atribuído' }}--}}
+                            {{ $project->gestor ? $project->gestor->name : 'Não atribuído' }}
                         </td>
                         <td>
                             <a href="{{ route('projects.edit', $project) }}" class="btn btn-warning btn-sm">Editar</a>

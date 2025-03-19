@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\TaskPriority;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class Task extends Model
 {
@@ -15,6 +16,15 @@ class Task extends Model
         'priority' => TaskPriority::class, 
     ];
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope('responsible', function (Builder $builder) {
+            if (auth()->user()->hasRole('user')) {
+                $builder->where('responsible', auth()->id());
+            }
+        });
+    }
+
     public function getPriorityLabelAttribute(): string
     {
         return match($this->priority) {
@@ -24,7 +34,7 @@ class Task extends Model
         };
     }
 
-    public function responsible(): BelongsTo
+    public function responsavel(): BelongsTo
     {
         return $this->belongsTo(User::class, 'responsible', 'id');
     }

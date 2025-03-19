@@ -16,7 +16,7 @@ class ProjectController extends Controller
 
     public function index()
     {
-        $projects = Project::with('manager')->paginate(20);
+        $projects = Project::paginate(20);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -35,18 +35,22 @@ class ProjectController extends Controller
             'manager' => 'required|exists:users,id',
         ]);
 
-        Project::create([
-            'title' => $request->title,
-            'manager' => $request->manager,
-        ]);
+        try {
+            Project::create([
+                'title' => $request->title,
+                'manager' => $request->manager,
+            ]);
 
-        return redirect()->route('projects.index')->with('success', 'Projeto criado com sucesso!');
+            return redirect()->route('projects.index')->with('success', 'Projeto criado com sucesso!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erro ao criar o projeto: ' . $e->getMessage());
+        }
     }
 
     public function edit(Project $project)
     {
         $users = User::all(); 
-        $project->load('manager');
+        $project->load('gestor');
         return view('admin.projects.edit', compact('project', 'users'));
     }
 

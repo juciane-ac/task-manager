@@ -78,8 +78,13 @@
                         <tr>
                             <td>{{ $task->id }}</td>
                             <td>{{ $task->title }}</td>
-                            <td>{{ $task->responsible->name ?? 'Sem responsável' }}</td>
-                            <td>{{ $task->situation }}</td>
+                            <td>{{ $task->responsavel->name ?? 'Sem responsável' }}</td>
+                            <td>
+                                {{ [
+                                    'em_andamento' => 'Em andamento',
+                                    'concluida' => 'Concluída',
+                                ][$task->situation] ?? $task->situation }}
+                            </td>
                             <td>
                                 <div class="d-flex justify-content-end">
                                 @auth
@@ -95,7 +100,7 @@
                                     </form>
                                     @endif
 
-                                    @if(auth()->id() === $task->responsible)
+                                    @if((auth()->id() === $task->responsible) || (auth()->user()->hasAnyRole(['admin', 'manager']) && $task->situation !== 'concluida'))
                                         <form action="{{ route('task.ChangeSituation', $task->id) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="btn btn-sm btn-success m-2" onclick="return confirm('Tem certeza que deseja concluir esta tarefa?')">Concluir</button>

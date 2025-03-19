@@ -40,7 +40,7 @@
                 <label for="project_id">Projeto</label>
                 <select name="project_id" id="project_id" class="form-control" required>
                     @foreach($projects as $project)
-                    <option value="{{ $project->id }}" {{ $task->project_id == $project->id ? 'selected' : '' }}>{{ $project->name }}</option>
+                    <option value="{{ $project->id }}" {{ $task->project_id == $project->id ? 'selected' : '' }}>{{ $project->title }}</option>
                     @endforeach
                 </select>
             </div>
@@ -49,7 +49,7 @@
                 <label for="responsavel">Responsável</label>
                 <select name="responsavel" id="responsavel" class="form-control" required>
                     @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ $task->responsavel == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                    <option value="{{ $user->id }}" {{ $task->responsavel->id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                     @endforeach
                 </select>
             </div>

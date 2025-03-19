@@ -26,7 +26,7 @@ class Project extends Model
         });
     }
 
-    public function manager(): BelongsTo
+    public function gestor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'manager');
     }

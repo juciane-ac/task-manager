@@ -31,7 +31,7 @@ class HomeController extends Controller
     {
         $users = User::select('id', 'name')->get();
         
-        $tasks = Task::query();
+        $tasks = Task::withoutGlobalScopes();
 
         if ($request->filled('task_number')) {
             $tasks->where('id', $request->task_number);
@@ -52,8 +52,7 @@ class HomeController extends Controller
             $tasks->where('situation', $request->situation);
         }
 
-        $tasks->orderBy('created_at', 'desc');
-        $tasks = $tasks->paginate(20);
+        $tasks = $tasks->orderBy('created_at', 'desc')->paginate(20);
 
         return view('list-tasks', compact('tasks','users'));
     }

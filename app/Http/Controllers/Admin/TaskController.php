@@ -16,6 +16,7 @@ class TaskController extends Controller
 {
     public function __construct()
     {
+
     }
 
     public function index()
@@ -39,20 +40,23 @@ class TaskController extends Controller
             'priority' => ['required', Rule::in(array_map(fn($enum) => $enum->value, TaskPriority::cases()))],
             'deadline' => 'required|date',
             'project_id' => 'required|exists:projects,id',
-            'responsible' => 'required|exists:users,id',  
+            'responsible' => 'required|exists:users,id',
         ]);
 
+        try {
+            Task::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'priority' => TaskPriority::from($request->priority),
+                'deadline' => $request->deadline,
+                'project_id' => $request->project_id,
+                'responsible' => $request->responsible,
+            ]);
 
-        Task::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'priority' => TaskPriority::from($request->priority),
-            'deadline' => $request->deadline,
-            'project_id' => $request->project_id,
-            'responsible' => $request->responsible,
-        ]);
-
-        return redirect()->route('tasks.index')->with('success', 'Tarefa criada com sucesso!');
+            return redirect()->route('tasks.index')->with('success', 'Tarefa criada com sucesso!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erro ao criar a tarefa: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, Task $task)

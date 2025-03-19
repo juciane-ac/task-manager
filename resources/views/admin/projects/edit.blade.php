@@ -15,7 +15,7 @@
                 <label for="manager">Gestor</label>
                 <select name="manager" id="manager" class="form-control" required>
                     @foreach($users as $user)
-                        <option value="{{ $user->id }}" {{ $project->manager == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" {{ $project->gestor == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                     @endforeach
                 </select>
             </div>

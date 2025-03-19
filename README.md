@@ -12,4 +12,4 @@
 > 
 >  CRUDS de projetos e tarefas, utilizando Eloquent ORM
 >
-> página pública de dashboard com painel de tarefas
+> página pública de dashboard com painel de tarefas, com opções de filtros e botões de gerenciamento, utilizando bootstrap
